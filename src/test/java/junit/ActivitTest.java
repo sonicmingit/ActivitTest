@@ -32,7 +32,9 @@ public class ActivitTest {
 	/* 使用配置文件创建工作流需要的23张表 */
 	@Test
 	public void createTableByXML() {
-		ProcessEngineConfiguration pec = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti-custom-context.xml");
+		//根据配置文件创建单例核心管理
+		ProcessEngineConfiguration pec = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+		//工作流核心对象创建
 		ProcessEngine pe = pec.buildProcessEngine();
 		System.out.println("创建完成(配置文件):" + pe);
 	}

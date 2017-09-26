@@ -35,14 +35,16 @@
 		/> <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" 
 		/> <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" 
 		/> -->
-
-	<bean id="pec"
-		class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration.StandaloneInMemProcessEngineConfiguration">
-		<property name="JdbcDriver" value="com.mysql.jdbc.Driver"></property>
-		<property name="JdbcUrl"
-			value="jdbc:mysql://127.0.0.1:3306/activititest?useUnicode=true&charsetEncoding=utf-8"></property>
-		<property name="JdbcUsername" value="root"></property>
-		<property name="JdbcPassword" value="1231"></property>
+	<!-- 固定ip,格式,只修改数据库连接参数 -->
+	<bean id="processEngineConfiguration"
+		class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+		<property name="jdbcDriver" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl"
+			value="jdbc:mysql://127.0.0.1:3306/activititest?useUnicode=true&amp;charsetEncoding=utf-8"></property>
+		<property name="jdbcUsername" value="root"></property>
+		<property name="jdbcPassword" value="1231"></property>
+		<!-- 没有表就创建表 -->
+		<property name="databaseSchemaUpdate" value="true"></property>
 	</bean>
 
 

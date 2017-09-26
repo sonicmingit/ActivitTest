@@ -61,7 +61,6 @@
 	<classpathentry kind="lib" path="lib/spring-webmvc-4.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/swagger-annotations-1.5.10.jar"/>
 	<classpathentry kind="lib" path="lib/swagger-models-1.5.10.jar"/>
-	<classpathentry kind="lib" path="lib/JUnit-4.12.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.34.jar"/>
 	<classpathentry kind="lib" path="lib/junit-3.8.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
