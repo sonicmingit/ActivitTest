@@ -137,19 +137,18 @@ public class ProcessVariables {
 				.complete(taskId);// 完成任务id
 		System.out.println("完成任务,id:" + taskId);
 	}
-	
+
 	/**
-	 * 查询流程变量的历史表
-	 * act_hi_varinst
+	 * 查询流程变量的历史表 act_hi_varinst
 	 */
 	@Test
 	public void findHistoryProcessVariable() {
-	List<HistoricVariableInstance> list = 	pe.getHistoryService()//
-		.createHistoricVariableInstanceQuery()//创建一个历史的流程变量实例
-		.variableName("请假天数")//根据变量名称查询
-		.list();
-		
-		if (list!=null&&list.size()>0) {
+		List<HistoricVariableInstance> list = pe.getHistoryService()//
+				.createHistoricVariableInstanceQuery()// 创建一个历史的流程变量实例
+				.variableName("请假天数")// 根据变量名称查询
+				.list();
+
+		if (list != null && list.size() > 0) {
 			for (HistoricVariableInstance his : list) {
 				System.out.println(his.getValue());
 			}
