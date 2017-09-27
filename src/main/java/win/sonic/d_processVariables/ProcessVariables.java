@@ -2,12 +2,14 @@ package win.sonic.d_processVariables;
 
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
@@ -134,5 +136,23 @@ public class ProcessVariables {
 		pe.getTaskService()// 与正在执行的任务管理相关的Service
 				.complete(taskId);// 完成任务id
 		System.out.println("完成任务,id:" + taskId);
+	}
+	
+	/**
+	 * 查询流程变量的历史表
+	 * act_hi_varinst
+	 */
+	@Test
+	public void findHistoryProcessVariable() {
+	List<HistoricVariableInstance> list = 	pe.getHistoryService()//
+		.createHistoricVariableInstanceQuery()//创建一个历史的流程变量实例
+		.variableName("请假天数")//根据变量名称查询
+		.list();
+		
+		if (list!=null&&list.size()>0) {
+			for (HistoricVariableInstance his : list) {
+				System.out.println(his.getValue());
+			}
+		}
 	}
 }

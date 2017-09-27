@@ -29,6 +29,7 @@ public class ActivitTest {
 		ProcessEngine pe = pec.buildProcessEngine();
 		System.out.println("创建完成:" + pe);
 	}
+	
 	/* 使用配置文件创建工作流需要的23张表 */
 	@Test
 	public void createTableByXML() {
