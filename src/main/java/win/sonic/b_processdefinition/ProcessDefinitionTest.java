@@ -1,4 +1,4 @@
-package win.sonic.b;
+package win.sonic.b_processdefinition;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +16,11 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+/**
+ * 流程定义
+ */
 public class ProcessDefinitionTest {
-	// 创建一个核心引擎
+	/** 创建一个核心引擎 */
 	ProcessEngine pe = ProcessEngines.getDefaultProcessEngine();
 
 	/**
@@ -65,23 +68,27 @@ public class ProcessDefinitionTest {
 	@Test
 	public void findProcessDefinition() {
 		System.out.println("----------------------按条件查询流程定义-------------------");
-		List<ProcessDefinition> list = pe.getRepositoryService()// 与流程定义和部署对象相关的Service
-				.createProcessDefinitionQuery()// 创建一个流程定义查询
-				/** 指定条件查询,对应 act_re_procdef表,相当于where条件 */
-				// .deploymentId(deploymentId)//使用部署对象ID查询(DEPLOYMENT_ID)
-				// .processDefinitionId(processDefinitionId)//使用流程定义的ID查询(ID_)
-				// .processDefinitionKey(processDefinitionKey)//使用流程定义的key查询(KEY_)-集合
-				// .processDefinitionNameLike(processDefinitionNameLike)//使用流程定义名称模糊查询(NAME_)
-				// ...很多封装查询方式!
-				/** 排序 */
-				.orderByDeploymentId().asc()// 按照部署对象ID升序排列
-				// .orderByProcessDefinitionKey().desc()//按照流程定义的key降序排列
-				/** 查询返回结果集 */
-				.list();// 返回一个集合列表,封装流程定义.对应上面查询条件返回值
-		// .singleResult();//返回一个结果集
+		List<ProcessDefinition> list // 返回结果集
+		// long count //返回结果数量
+		// ProcessDefinition pd //返回单条结果
+				= pe.getRepositoryService()// 与流程定义和部署对象相关的Service
+						.createProcessDefinitionQuery()// 创建一个流程定义查询
+						/** 指定条件查询,对应 act_re_procdef表,相当于where条件 */
+						// .deploymentId(deploymentId)//使用部署对象ID查询(DEPLOYMENT_ID)
+						// .processDefinitionId(processDefinitionId)//使用流程定义的ID查询(ID_)key.version.deployment_id
+						// .processDefinitionKey(processDefinitionKey)//使用流程定义的key查询(KEY_)-集合
+						// .processDefinitionNameLike(processDefinitionNameLike)//使用流程定义名称模糊查询(NAME_)
+						// ...很多封装查询方式!
+						/** 排序 */
+						.orderByDeploymentId().asc()// 按照部署对象ID升序排列
+						// .orderByProcessDefinitionKey().desc()//按照流程定义的key降序排列
+						/** 查询返回结果集 */
+						.list();// 返回一个集合列表,封装流程定义.对应上面查询条件返回值
+		// .singleResult();//返回唯一结果集
 		// .count();//返回结果集数量
 		// .listPage(firstResult, maxResults);//分页查询(开始页,共页数)
 
+		/** 输出结果集 */
 		if (list != null && list.size() > 0) {
 			for (ProcessDefinition p : list) {
 				System.out.println("流程定义id:" + p.getId());// 流程定义的key+版本+随机生成数
@@ -96,6 +103,8 @@ public class ProcessDefinitionTest {
 		} else {
 			System.out.println("没有查询结果!");
 		}
+		/** 输出结果数量,对应count */
+		// System.out.println("共查询到:" + count + "条结果!");
 	}
 
 	/**
@@ -104,7 +113,7 @@ public class ProcessDefinitionTest {
 	@Test
 	public void deletProcessDefinition() {
 		// 使用部署id删除
-		String deploymentId = "45005";
+		String deploymentId = "67505";// (唯一的)
 		/**
 		 * 不带级联删除,只能删除没有启动的流程 如果流程启动就会抛出异常
 		 */
@@ -112,9 +121,14 @@ public class ProcessDefinitionTest {
 		// .deleteDeployment(deploymentId);
 
 		/** 级联删除,不管流程是否启动都能删除 */
-		pe.getRepositoryService()// 获取与流程定义和部署对象相关的Service
-				.deleteDeployment(deploymentId, true);
-		System.out.println(deploymentId + "删除成功!");
+		try {
+			pe.getRepositoryService()// 获取与流程定义和部署对象相关的Service
+					.deleteDeployment(deploymentId, true);
+			System.out.println(deploymentId + "删除成功!");
+		} catch (Exception e) {
+			System.out.println(deploymentId + " 没有这个部署任务!");
+		}
+
 	}
 
 	/**
@@ -124,8 +138,8 @@ public class ProcessDefinitionTest {
 	public void viewProcessDefinition() {
 		/** 将生成的图片放到文件夹下 */
 		// 使用部署id删除
-		String deploymentId = "12501";
-		// 获取图片资源名称
+		String deploymentId = "57501";
+		/** 获取图片资源名称 */
 		String resourceName = "";
 		List<String> list = pe.getRepositoryService()//
 				.getDeploymentResourceNames(deploymentId);
@@ -140,7 +154,7 @@ public class ProcessDefinitionTest {
 		}
 		// 获取图片的输入流
 		InputStream in = pe.getRepositoryService()// 获取与流程定义和部署对象相关的Service
-				.getResourceAsStream(deploymentId, resourceName);
+				.getResourceAsStream(deploymentId, resourceName);// 通过部署id和文件名获取输入流
 
 		// 将图片生成到d盘目录下
 		File file = new File("e:/" + resourceName);
@@ -159,14 +173,15 @@ public class ProcessDefinitionTest {
 	@Test
 	public void findNewProcessDefinition() {
 		// 获取按照key值排列的ProcessDefinition集合
+		// SELECT * FROM act_re_procdef ORDER BY KEY_ DESC
 		List<ProcessDefinition> list = pe.getRepositoryService()//
 				.createProcessDefinitionQuery()//
-				.orderByProcessDefinitionKey().asc()// 使用流程定义升序排列
+				.orderByProcessDefinitionKey().asc()// 使用流程定义升序排列(key相同放一起,version升序排列)
 				.list();
 		// 创建一个临时map为了保存最新版本
 		Map<String, ProcessDefinition> map = new LinkedHashMap<String, ProcessDefinition>();
 		if (list != null && list.size() > 0) {
-			// 循环覆盖旧版本的key
+			// 循环覆盖旧版本的key(version后面高版本覆盖前面低版本)
 			for (ProcessDefinition pd : list) {
 				map.put(pd.getKey(), pd);
 			}
@@ -196,8 +211,9 @@ public class ProcessDefinitionTest {
 	@Test
 	public void deleteProcessDefinition() {
 		// 流程定义key
-		String processDefinitionKey = "test";
-		// 先试用流程定义的key查询流程定义,查询出所有版本
+		String processDefinitionKey = "ask";
+		// 先用流程定义的key查询流程定义,查询出所有版本
+		// SELECT * FROM act_re_procdef WHERE KEY_ = "test"
 		List<ProcessDefinition> list = pe.getRepositoryService().createProcessDefinitionQuery()
 				.processDefinitionKey(processDefinitionKey)// 使用流程定义key查询
 				.list();
@@ -209,7 +225,7 @@ public class ProcessDefinitionTest {
 				String deploymentId = pd.getDeploymentId();
 				// 级联删除
 				pe.getRepositoryService().deleteDeployment(deploymentId, true);
-				System.out.println("------------已删除:"+pd.getId()+"-------------");
+				System.out.println("------------已删除:" + pd.getId() + "-------------");
 			}
 		}
 	}
