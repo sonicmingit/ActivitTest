@@ -81,7 +81,7 @@ public class ProcessVariables {
 	/** 设置流程变量(使用JavaBean) act_ru_variable */
 	@Test
 	public void setVariables_bean() {
-		String taskId = "92505";
+		String taskId = "182505";
 		/** 当一个javabean(实现序列化)放置到流程变量中,要求javabean属性不能再变化,如果发生变化,在获取时,抛出异常 */
 		/**
 		 * 解决方案:在javabean对象中添加一个固定编号<br/>

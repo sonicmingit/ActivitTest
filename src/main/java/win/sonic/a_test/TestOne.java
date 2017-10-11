@@ -20,7 +20,7 @@ public class TestOne {
 	 */
 	@Test
 	public void deploymentProcessDefinition() {
-		String diagram = "diagrams/test";// 流程路径
+		String diagram = "diagrams/ask";// 流程路径
 		String bpmn = diagram + ".bpmn";// bpmn文件
 		String png = diagram + ".png";// png文件
 		System.out.println("----------------------部署流程定义-------------------");
@@ -58,7 +58,7 @@ public class TestOne {
 	@Test
 	public void findMyTask() {
 		System.out.println("------------------查询当前人的个人任务-----------------------");
-		String assignee = "杨";// 经办人 UesrTask-MainCofig,目前该谁操作
+		String assignee = "陆";// 经办人 UesrTask-MainCofig,目前该谁操作
 		List<Task> list = pe.getTaskService()// 正在执行的任务管理
 				.createTaskQuery()// 创建查询任务
 				.taskAssignee(assignee)// 指定个人任务查询,指定经办人
@@ -87,7 +87,7 @@ public class TestOne {
 	@Test
 	public void completeMyTask() {
 		System.out.println("------------------完成我的任务-----------------------");
-		String taskId = "17509";// 任务ID,创建任务时生成的act_ru_task表中id
+		String taskId = "182505";// 任务ID,创建任务时生成的act_ru_task表中id
 		pe.getTaskService()// 与正在执行的任务管理相关的Service
 				.complete(taskId);// 完成任务id
 		System.out.println("完成任务,id:" + taskId);
