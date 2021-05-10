@@ -4,3 +4,5 @@
 *.ntvs*
 *.njsproj
 *.sln
+.project
+.classpath

@@ -14,7 +14,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
 
-import com.sun.jmx.snmp.tasks.TaskServer;
+
 
 /**
  * 流程变量
